@@ -51,7 +51,8 @@ export async function loginCliente(formData: FormData) {
     .eq('telefono', telefono)
     .single()
 
-  if (!cliente || !cliente.activo) redirect('/portal')
+  if (!cliente) redirect('/portal?error=notfound')
+  if (!cliente.activo) redirect('/portal?error=inactive')
 
   const cookieStore = await cookies()
   cookieStore.set('cliente_id', cliente.id, {

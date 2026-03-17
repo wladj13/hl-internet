@@ -3,9 +3,14 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-export default async function PortalLoginPage() {
+export default async function PortalLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
   const cookieStore = await cookies()
   if (cookieStore.get('cliente_id')) redirect('/portal/inicio')
+  const { error } = await searchParams
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-slate-100 flex items-center justify-center p-4">
@@ -20,6 +25,17 @@ export default async function PortalLoginPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           <h2 className="text-lg font-semibold text-slate-800 mb-1">Bienvenido</h2>
           <p className="text-slate-500 text-sm mb-6">Ingresa con tu cédula y teléfono</p>
+
+          {error === 'notfound' && (
+            <div className="mb-4 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
+              Cédula o teléfono incorrectos. Verifica tus datos.
+            </div>
+          )}
+          {error === 'inactive' && (
+            <div className="mb-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-sm text-amber-700">
+              Tu cuenta está inactiva. Contacta a soporte.
+            </div>
+          )}
 
           <form action={loginCliente} className="space-y-4">
             <div>
