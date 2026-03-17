@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { subirComprobante } from '@/lib/actions/portal'
 import Link from 'next/link'
+import BtnEnviarComprobante from '@/components/BtnEnviarComprobante'
 
 export default async function PortalPagarPage() {
   const cookieStore = await cookies()
@@ -74,12 +75,7 @@ export default async function PortalPagarPage() {
               <p className="text-xs text-slate-400 mt-1.5">Puedes tomar una foto directamente con la cámara</p>
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-3 rounded-xl text-sm transition-colors"
-            >
-              Enviar comprobante
-            </button>
+            <BtnEnviarComprobante />
           </form>
         </div>
       </div>

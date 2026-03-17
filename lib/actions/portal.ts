@@ -107,11 +107,12 @@ export async function subirComprobante(formData: FormData) {
     .from('comprobantes')
     .getPublicUrl(fileName)
 
-  const { data: cliente } = await supabase
-    .from('clientes')
-    .select('nombre, cedula')
-    .eq('id', clienteId)
-    .single()
+  const [{ data: cliente }, { data: existente }] = await Promise.all([
+    supabase.from('clientes').select('nombre, cedula').eq('id', clienteId).single(),
+    supabase.from('comprobantes').select('id').eq('cliente_id', clienteId).eq('mes_correspondiente', mes).in('estado', ['pendiente', 'aprobado']).maybeSingle(),
+  ])
+
+  if (existente) redirect('/portal/inicio?enviado=1')
 
   await supabase.from('comprobantes').insert({
     cliente_id: clienteId,
