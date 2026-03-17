@@ -69,10 +69,9 @@ export default async function PortalPagarPage() {
                 type="file"
                 accept="image/*"
                 required
-                capture="environment"
                 className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-medium file:bg-sky-50 file:text-sky-700"
               />
-              <p className="text-xs text-slate-400 mt-1.5">Puedes tomar una foto directamente con la cámara</p>
+              <p className="text-xs text-slate-400 mt-1.5">Selecciona la imagen del comprobante desde tu galería o archivos</p>
             </div>
 
             <BtnEnviarComprobante />
