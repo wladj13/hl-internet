@@ -74,7 +74,10 @@ export default async function PortalLoginPage({
           </p>
 
           <div className="mt-4 pt-5 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-400 mb-3">¿Problemas para ingresar? Contacta soporte</p>
+            <Link href="/portal/ayuda" className="text-xs text-sky-600 hover:text-sky-700 font-medium">
+              ¿Cómo usar el portal? Ver manual
+            </Link>
+            <p className="text-xs text-slate-400 mt-3 mb-3">¿Problemas para ingresar? Contacta soporte</p>
             <div className="flex gap-2 justify-center">
               <a
                 href="https://wa.me/13815516550"
