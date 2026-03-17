@@ -80,7 +80,7 @@ export default async function PortalLoginPage({
             <p className="text-xs text-slate-400 mt-3 mb-3">¿Problemas para ingresar? Contacta soporte</p>
             <div className="flex gap-2 justify-center">
               <a
-                href="https://wa.me/13815516550"
+                href="https://wa.me/584124009952"
                 target="_blank"
                 className="flex items-center gap-1.5 text-xs text-emerald-600 hover:text-emerald-700 font-medium bg-emerald-50 px-3 py-1.5 rounded-lg"
               >

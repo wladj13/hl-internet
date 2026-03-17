@@ -71,7 +71,7 @@ export default function AyudaPage() {
           <p className="font-semibold text-slate-800 text-sm mb-3">¿Necesitas ayuda?</p>
           <div className="flex gap-3">
             <a
-              href="https://wa.me/13815516550"
+              href="https://wa.me/584124009952"
               target="_blank"
               className="flex-1 flex items-center justify-center gap-2 text-sm text-emerald-600 font-medium bg-emerald-50 hover:bg-emerald-100 py-2.5 rounded-xl transition-colors"
             >
