@@ -57,6 +57,19 @@ export default async function PortalInicioPage({
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
 
+        {/* Aviso de pago oportuno */}
+        {!pagoEsteMes && !comprobanteEsteMes && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 items-start">
+            <span className="text-amber-500 text-xl shrink-0">⚠️</span>
+            <div>
+              <p className="text-amber-800 text-sm font-semibold">Recuerda realizar tu pago</p>
+              <p className="text-amber-700 text-xs mt-0.5">
+                Para evitar la suspensión del servicio, realiza tu pago antes del <strong>día 5 de cada mes</strong>.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Alerta enviado */}
         {enviado && (
           <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex gap-3 items-center">
