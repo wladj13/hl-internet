@@ -4,6 +4,7 @@ import Link from 'next/link'
 import EstadoBadge from '@/components/EstadoBadge'
 import { toggleClienteActivo } from '@/lib/actions/clientes'
 import BtnEliminarCliente from '@/components/BtnEliminarCliente'
+import { redirect } from 'next/navigation'
 import { EstadoPago } from '@/lib/types'
 
 export default async function ClienteDetallePage({ params }: { params: Promise<{ id: string }> }) {
