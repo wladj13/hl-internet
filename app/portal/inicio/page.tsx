@@ -5,6 +5,7 @@ import { logoutCliente } from '@/lib/actions/portal'
 import Link from 'next/link'
 import EstadoBadge from '@/components/EstadoBadge'
 import { EstadoPago } from '@/lib/types'
+import NotificacionComprobante from '@/components/NotificacionComprobante'
 
 export default async function PortalInicioPage({
   searchParams,
@@ -56,6 +57,15 @@ export default async function PortalInicioPage({
       </header>
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
+
+        {/* Notificación aprobado/rechazado */}
+        {comprobanteEsteMes && (comprobanteEsteMes.estado === 'aprobado' || comprobanteEsteMes.estado === 'rechazado') && (
+          <NotificacionComprobante
+            comprobanteId={comprobanteEsteMes.id}
+            estado={comprobanteEsteMes.estado}
+            mes={mesActual}
+          />
+        )}
 
         {/* Aviso de pago oportuno */}
         {!pagoEsteMes && !comprobanteEsteMes && (
