@@ -26,7 +26,7 @@ export default async function PortalInicioPage({
     supabase.from('comprobantes').select('*').eq('cliente_id', clienteId).order('created_at', { ascending: false }),
   ])
 
-  if (!cliente) redirect('/portal')
+  if (!cliente) redirect('/portal/reset')
 
   const pagoEsteMes = pagos?.find(p => p.mes_correspondiente === mesActual)
   const comprobanteEsteMes = comprobantes?.find(c => c.mes_correspondiente === mesActual)
