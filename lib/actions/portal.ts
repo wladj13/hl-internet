@@ -36,6 +36,15 @@ export async function registrarCliente(formData: FormData) {
     path: '/',
   })
 
+  await notificarTelegram(
+    `🆕 <b>Nuevo cliente registrado</b>\n\n` +
+    `👤 Nombre: ${nombre}\n` +
+    `🪪 Cédula: ${cedula}\n` +
+    `📞 Teléfono: ${telefono}\n` +
+    `🏠 Dirección: ${direccion}\n` +
+    `📦 Plan: Básico · $15.00/mes`
+  )
+
   redirect('/portal/inicio')
 }
 
