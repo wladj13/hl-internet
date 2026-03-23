@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 import { Wifi, User, Phone, MapPin, ArrowRight, ShieldCheck, CreditCard, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 
-export default function PortalRegistroPage() {
+function PortalRegistroContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   const [loading, setLoading] = useState(false)
@@ -176,5 +176,13 @@ export default function PortalRegistroPage() {
         </div>
       </motion.div>
     </div>
+  )
+}
+
+export default function PortalRegistroPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <PortalRegistroContent />
+    </Suspense>
   )
 }

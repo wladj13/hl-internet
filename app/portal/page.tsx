@@ -5,16 +5,15 @@ import { motion } from 'framer-motion'
 import { Wifi, User, Phone, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 
-export default function PortalLoginPage() {
+function PortalLoginContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     setLoading(true)
-    // El form action se encargará del resto, pero podemos mostrar un estado de carga
   }
 
   return (
@@ -155,5 +154,13 @@ export default function PortalLoginPage() {
         </p>
       </motion.div>
     </div>
+  )
+}
+
+export default function PortalLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <PortalLoginContent />
+    </Suspense>
   )
 }
