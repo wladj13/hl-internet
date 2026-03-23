@@ -2,6 +2,8 @@
 
 import { useState, useRef } from 'react'
 import { subirComprobante } from '@/lib/actions/portal'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Calendar, CreditCard, Image as ImageIcon, Check, Loader2, UploadCloud } from 'lucide-react'
 
 export default function FormComprobante({ mesActual, hoy }: { mesActual: string; hoy: string }) {
   const [loading, setLoading] = useState(false)
@@ -12,50 +14,66 @@ export default function FormComprobante({ mesActual, hoy }: { mesActual: string;
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
-    await subirComprobante(formData)
+    try {
+      await subirComprobante(formData)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">Mes a pagar</label>
-        <input
-          name="mes_correspondiente"
-          type="month"
-          required
-          defaultValue={mesActual}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-        />
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 flex items-center gap-2">
+            <Calendar size={14} className="text-primary-indigo" />
+            Mes a pagar
+          </label>
+          <input
+            name="mes_correspondiente"
+            type="month"
+            required
+            defaultValue={mesActual}
+            className="w-full bg-slate-100/50 border border-slate-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary-indigo/20 focus:border-primary-indigo transition-all outline-none"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 flex items-center gap-2">
+            <Calendar size={14} className="text-primary-indigo" />
+            Fecha del pago
+          </label>
+          <input
+            name="fecha_pago"
+            type="date"
+            required
+            defaultValue={hoy}
+            max={hoy}
+            className="w-full bg-slate-100/50 border border-slate-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary-indigo/20 focus:border-primary-indigo transition-all outline-none"
+          />
+        </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">Fecha en que realizaste el pago</label>
-        <input
-          name="fecha_pago"
-          type="date"
-          required
-          defaultValue={hoy}
-          max={hoy}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-          Número de referencia <span className="text-slate-400">(opcional)</span>
+      <div className="space-y-2">
+        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 flex items-center gap-2">
+          <CreditCard size={14} className="text-primary-indigo" />
+          Número de referencia <span className="text-slate-400 font-normal lowercase">(opcional)</span>
         </label>
         <input
           name="referencia"
           type="text"
           placeholder="Ej: 000123456789"
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+          className="w-full bg-slate-100/50 border border-slate-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary-indigo/20 focus:border-primary-indigo transition-all outline-none"
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">Comprobante de pago</label>
-        <label className={`flex flex-col items-center justify-center w-full h-36 rounded-xl border-2 border-dashed cursor-pointer transition-colors ${
-          archivo ? 'border-sky-400 bg-sky-50' : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
+      <div className="space-y-2">
+        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 flex items-center gap-2">
+          <ImageIcon size={14} className="text-primary-indigo" />
+          Comprobante de pago
+        </label>
+        <label className={`relative group flex flex-col items-center justify-center w-full h-44 rounded-[2rem] border-2 border-dashed transition-all cursor-pointer overflow-hidden ${
+          archivo ? 'border-primary-indigo/50 bg-primary-indigo/5' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-primary-indigo/30'
         }`}>
           <input
             name="foto"
@@ -65,38 +83,55 @@ export default function FormComprobante({ mesActual, hoy }: { mesActual: string;
             className="hidden"
             onChange={(e) => setArchivo(e.target.files?.[0]?.name ?? null)}
           />
-          {archivo ? (
-            <>
-              <span className="text-2xl mb-1">✅</span>
-              <p className="text-sm font-medium text-sky-700 text-center px-4 truncate max-w-full">{archivo}</p>
-              <p className="text-xs text-sky-500 mt-1">Toca para cambiar</p>
-            </>
-          ) : (
-            <>
-              <span className="text-2xl mb-1">📎</span>
-              <p className="text-sm font-medium text-slate-600">Toca para adjuntar imagen</p>
-              <p className="text-xs text-slate-400 mt-1">JPG, PNG desde tu galería</p>
-            </>
-          )}
+          
+          <AnimatePresence mode="wait">
+            {archivo ? (
+              <motion.div 
+                key="checked"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center px-6"
+              >
+                <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center mb-3 shadow-lg shadow-emerald-500/20">
+                  <Check size={24} />
+                </div>
+                <p className="text-sm font-bold text-slate-900 text-center truncate max-w-[250px]">{archivo}</p>
+                <p className="text-[10px] text-primary-indigo font-bold mt-2 uppercase tracking-tight">Toca para cambiar</p>
+              </motion.div>
+            ) : (
+              <motion.div 
+                key="upload"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white text-slate-400 flex items-center justify-center mb-4 shadow-sm border border-slate-100 group-hover:text-primary-indigo group-hover:scale-110 transition-all">
+                  <UploadCloud size={24} />
+                </div>
+                <p className="text-sm font-bold text-slate-700">Adjuntar comprobante</p>
+                <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-widest">Imagen JPG o PNG</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </label>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+        className="w-full relative group h-14"
       >
-        {loading ? (
-          <>
-            <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-            </svg>
-            Enviando...
-          </>
-        ) : (
-          'Enviar comprobante'
-        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-indigo to-primary-violet rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div className="relative h-full w-full bg-gradient-to-r from-primary-indigo to-primary-violet rounded-2xl flex items-center justify-center gap-2 text-white font-bold text-base hover:scale-[1.01] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100">
+          {loading ? (
+            <Loader2 className="animate-spin" size={20} />
+          ) : (
+            <>
+              <span>Enviar reporte de pago</span>
+              <Check size={18} />
+            </>
+          )}
+        </div>
       </button>
     </form>
   )
