@@ -5,7 +5,94 @@ import { motion } from 'framer-motion'
 import { Wifi, User, Phone, MapPin, ArrowRight, ShieldCheck, CreditCard, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+
+function BcvWidget() {
+  const [rate, setRate] = useState<number | null>(null)
+  const [updated, setUpdated] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/bcv')
+      .then(r => r.json())
+      .then(d => { setRate(d.rate); setUpdated(d.updated) })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const dateLabel = updated ? new Date(updated).toLocaleDateString('es-VE', { day: '2-digit', month: 'short', year: 'numeric' }) : null
+
+  return (
+    <>
+      <style>{`
+        @keyframes matrix-reflect {
+          0%   { background-position: -250% center; }
+          100% { background-position:  250% center; }
+        }
+        .bcv-wrap {
+          position: relative;
+          display: inline-block;
+          border-radius: 18px;
+          padding: 2px;
+        }
+        .bcv-wrap::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 18px;
+          background: linear-gradient(
+            90deg,
+            #001800 0%,
+            #003b00 20%,
+            #00ff41 38%,
+            #00ff41 44%,
+            #003b00 62%,
+            #001800 100%
+          );
+          background-size: 250% 100%;
+          animation: matrix-reflect 2.4s ease-in-out infinite;
+          z-index: 0;
+        }
+        .bcv-inner {
+          position: relative;
+          z-index: 1;
+          background: rgba(0, 0, 0, 0.82);
+          backdrop-filter: blur(16px);
+          border-radius: 16px;
+          padding: 14px 28px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          min-width: 200px;
+        }
+      `}</style>
+      <div className="bcv-wrap">
+        <div className="bcv-inner">
+          <span style={{ color: '#00ff41', fontSize: '11px', letterSpacing: '3px', fontFamily: 'monospace', fontWeight: 700, textTransform: 'uppercase' }}>
+            Tasa BCV Oficial
+          </span>
+          {loading ? (
+            <span style={{ color: '#fff', fontFamily: 'monospace', fontSize: '22px', fontWeight: 800 }}>...</span>
+          ) : rate ? (
+            <>
+              <span style={{ color: '#ffffff', fontFamily: 'monospace', fontSize: '30px', fontWeight: 800, lineHeight: 1.1 }}>
+                1 $ = Bs. {rate.toFixed(2)}
+              </span>
+              {dateLabel && (
+                <span style={{ color: '#4d8c4d', fontFamily: 'monospace', fontSize: '11px', fontWeight: 600 }}>
+                  Actualizado: {dateLabel}
+                </span>
+              )}
+            </>
+          ) : (
+            <span style={{ color: '#888', fontFamily: 'monospace', fontSize: '16px' }}>No disponible</span>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
 
 function PortalRegistroContent() {
   const searchParams = useSearchParams()
@@ -24,7 +111,7 @@ function PortalRegistroContent() {
         <div className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-primary-indigo/20 blur-[120px] rounded-full"></div>
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -32,7 +119,7 @@ function PortalRegistroContent() {
       >
         {/* Logo */}
         <div className="text-center mb-10">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-indigo to-primary-violet rounded-[2rem] text-white shadow-2xl shadow-primary-indigo/30 mb-6"
@@ -40,7 +127,8 @@ function PortalRegistroContent() {
             <Wifi size={40} strokeWidth={2.5} />
           </motion.div>
           <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">HL Internet</h1>
-          <p className="text-slate-400 font-medium">Únete a la nueva era de conectividad</p>
+          <p className="text-slate-400 font-medium mb-4">Únete a la nueva era de conectividad</p>
+          <BcvWidget />
         </div>
 
         {/* Card */}
@@ -56,7 +144,7 @@ function PortalRegistroContent() {
           </div>
 
           {error === 'cedula' && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium"
@@ -65,7 +153,7 @@ function PortalRegistroContent() {
             </motion.div>
           )}
           {error === 'general' && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium"
@@ -168,7 +256,7 @@ function PortalRegistroContent() {
             </Link>
           </p>
         </div>
-        
+
         <div className="mt-10 flex items-center justify-center gap-6 opacity-30">
           <Wifi size={24} className="text-white" />
           <ShieldCheck size={24} className="text-white" />

@@ -1,0 +1,41 @@
+            const data = Object.fromEntries(formData);
+            
+            // Mostrar mensaje de éxito
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Enviando...
+            `;
+            btn.disabled = true;
+            
+            // Simular envío (en producción, enviarías a un backend)
+            setTimeout(() => {
+                alert(`✅ Solicitud enviada exitosamente\n\nNombre: ${data.nombre}\nCédula: ${data.cedula}\nTeléfono: ${data.telefono}\nPlan: ${data.plan}\n\nNos contactaremos en 24 horas.`);
+                
+                // Restaurar botón
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Limpiar formulario
+                this.reset();
+            }, 1500);
+        });
+        
+        // Validación en tiempo real
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = '#10b981';
+                } else {
+                    this.style.borderColor = '#ef4444';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
