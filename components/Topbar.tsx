@@ -31,7 +31,7 @@ export default function Topbar() {
         <div className="flex items-center gap-3 pl-2">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-semibold text-slate-900 leading-none">Admin</p>
-            <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-tighter">HL Internet</p>
+            <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-tighter">HL Internet</p>
           </div>
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-indigo to-primary-violet p-[2px] shadow-lg shadow-primary-indigo/20">
             <div className="w-full h-full rounded-[10px] bg-white flex items-center justify-center text-primary-indigo">

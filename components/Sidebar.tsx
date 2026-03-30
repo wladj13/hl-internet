@@ -55,7 +55,7 @@ export default function Sidebar() {
                 animate={{ opacity: 1, x: 0 }}
                 className="overflow-hidden whitespace-nowrap"
               >
-                <div className="font-bold text-white tracking-tight">HL Internet</div>
+                <div className="font-bold text-slate-400 tracking-tight">HL Internet</div>
                 <div className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">WISP Admin</div>
               </motion.div>
             )}
