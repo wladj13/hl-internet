@@ -72,10 +72,10 @@ export default function SplashScreen() {
                 />
               ))}
             </div>
-            <p className="mt-6 text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">HL Internet</p>
+            <p className="mt-6 text-[11px] font-black uppercase tracking-[0.3em] text-slate-800">HL Internet</p>
           </motion.div>
 
-          <div className="absolute bottom-12 text-slate-300 text-[10px] font-bold uppercase tracking-widest">
+          <div className="absolute bottom-12 text-slate-600 text-[10px] font-bold uppercase tracking-widest">
             Iniciando sistema v2
           </div>
         </motion.div>

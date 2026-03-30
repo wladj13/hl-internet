@@ -126,7 +126,7 @@ function PortalRegistroContent() {
           >
             <Wifi size={40} strokeWidth={2.5} />
           </motion.div>
-          <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">HL Internet</h1>
+          <h1 className="text-4xl font-extrabold text-slate-700 tracking-tight mb-2">HL Internet</h1>
           <p className="text-slate-400 font-medium mb-4">Únete a la nueva era de conectividad</p>
           <BcvWidget />
         </div>
