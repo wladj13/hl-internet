@@ -56,7 +56,7 @@ export default function LoginPage() {
           >
             <Wifi size={40} strokeWidth={2.5} />
           </motion.div>
-          <h1 className="text-4xl font-extrabold text-slate-300 tracking-tight mb-2">HL Internet</h1>
+          <h1 className="text-4xl font-extrabold text-slate-700 tracking-tight mb-2">HL Internet</h1>
           <p className="text-slate-400 font-medium">Accede a tu panel administrativo</p>
         </div>
 
